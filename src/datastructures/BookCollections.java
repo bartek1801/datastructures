@@ -44,7 +44,12 @@ public class BookCollections {
     // zwraca książki z kolekcji books które należą do wszystkich zadanych gatunków
     // NIE modyfikuje kolekcji books!
     public static Collection<Book> findByGenres(Collection<Book> books, Set<Genre> genres) {
-        return null; //TODO
+        Collection<Book> genresBooks = new LinkedList<>();
+        for (Book item : books){
+            if (genres.containsAll(item.getGenres()))
+                genresBooks.add(item);
+        }
+        return genresBooks;
     }
 
     // zwraca posortowaną rosnąco po tytule listę książek stworzoną z kolekcji books
@@ -181,6 +186,7 @@ public class BookCollections {
         Book b5 = new Book("A Storm of Swords", martin , otherGenres);
         otherGenres.remove(Genre.FANTASY);
         otherGenres.add(Genre.HISTORICAL);
+        otherGenres.add(Genre.REALISTIC);
         Book b6 = new Book("Potop", sienkiewicz , otherGenres);
 
 
@@ -205,6 +211,17 @@ public class BookCollections {
         for (Book item : booksFindByTitle){
             System.out.println(item.toString());
         }
+
+        System.out.println("=================findByGenre================");
+
+        Set<Genre> genresToFind = new HashSet<>();
+        genresToFind.add(Genre.HISTORICAL);
+        genresToFind.add(Genre.REALISTIC);
+        Collection<Book> booksFindByGenres = findByGenres(books, genresToFind);
+        for (Book item : booksFindByGenres){
+            System.out.println(item.toString());
+        }
+
 
         System.out.println("================sortByTitle=================");
         List<Book> booksSortedByTitle = sortByTitle(books);
