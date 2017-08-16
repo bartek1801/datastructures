@@ -10,11 +10,11 @@ public class BookCollections {
 
     // zwraca książki z kolekcji books które zostały napisane przez zadanego autora
     // NIE modyfikuje kolekcji books!
-    public static Collection<Book> findByAuthor(Collection<Book> books, Person author){
+    public static Collection<Book> findByAuthor(Collection<Book> books, Person author) {
         Collection<Book> newBooks = new LinkedList<>();
 
-        for(Book item : books){
-            if(item.getAuthor().equals(author))
+        for (Book item : books) {
+            if (item.getAuthor().equals(author))
                 newBooks.add(item);
         }
         return newBooks;
@@ -24,7 +24,7 @@ public class BookCollections {
     // wielkość liter nie ma znaczenia
     // NIE modyfikuje kolekcji books!
     public static Collection<Book> findByTitle(Collection<Book> books, String phrase) {
-        Collection<Book> newBooks =  new LinkedList<>();
+        Collection<Book> newBooks = new LinkedList<>();
         String newPhrase = phrase.trim().toLowerCase();
         for (Book item : books) {
             if (item.getTitle().toLowerCase().contains(newPhrase))
@@ -37,7 +37,7 @@ public class BookCollections {
     // NIE modyfikuje kolekcji books!
     public static Collection<Book> findByGenres(Collection<Book> books, Set<Genre> genres) {
         Collection<Book> genresBooks = new LinkedList<>();
-        for (Book item : books){
+        for (Book item : books) {
             if (genres.containsAll(item.getGenres()))
                 genresBooks.add(item);
         }
@@ -108,7 +108,7 @@ public class BookCollections {
     public static Map<Person, Integer> authorsBookCountMap(Collection<Book> books) {
         Map<Person, Integer> booksCount = new HashMap<>();
 
-        for (Book item : books){
+        for (Book item : books) {
             Integer currentCount = booksCount.get(item.getAuthor());
             if (currentCount == null)
                 booksCount.put(item.getAuthor(), 1);
@@ -121,7 +121,7 @@ public class BookCollections {
     // zwraca liczbę książek których autorem jest auhtor
     public static int booksCount(Collection<Book> books, Person author) {
         int booksCounter = 0;
-        for (Book item : books){
+        for (Book item : books) {
             if (item.getAuthor().equals(author))
                 booksCounter++;
         }
@@ -131,7 +131,7 @@ public class BookCollections {
     // zwraca liczbę książek z danego gatunku
     public static int booksCount(Collection<Book> books, Genre genre) {
         int counter = 0;
-        for (Book item : books){
+        for (Book item : books) {
             if (item.hasGenre(genre))
                 counter++;
         }
@@ -145,7 +145,7 @@ public class BookCollections {
         Map<Person, Integer> m = authorsBookCountMap(books);
         int tmp = 0;
         Person tmpAuthor = null;
-        for (Map.Entry<Person, Integer> item : m.entrySet()){
+        for (Map.Entry<Person, Integer> item : m.entrySet()) {
             if (tmp < item.getValue()) {
                 tmp = item.getValue();
                 tmpAuthor = item.getKey();
@@ -168,27 +168,27 @@ public class BookCollections {
         Person sienkiewicz = new Person("Henryk", "Sienkiewicz", 80);
 
         otherGenres.add(Genre.FANTASY);
-        Book b1 = new Book("A Game of throne", martin ,  otherGenres);
+        Book b1 = new Book("A Game of throne", martin, otherGenres);
         otherGenres.remove(Genre.FANTASY);
         otherGenres.add(Genre.DRAMA);
-        Book b2 = new Book("A Family Corleone", puzo , otherGenres );
+        Book b2 = new Book("A Family Corleone", puzo, otherGenres);
         otherGenres.remove(Genre.DRAMA);
         otherGenres.add(Genre.FANTASY);
         Book b3 = new Book("A Clash of Kings", martin, otherGenres);
-        Book b10 = new Book("A Game ...........", martin ,  otherGenres);
+        Book b10 = new Book("A Game ...........", martin, otherGenres);
         otherGenres.remove(Genre.FANTASY);
         otherGenres.add(Genre.DRAMA);
-        Book b4 = new Book("God father", puzo , otherGenres);
+        Book b4 = new Book("God father", puzo, otherGenres);
         otherGenres.remove(Genre.DRAMA);
         otherGenres.add(Genre.FANTASY);
-        Book b5 = new Book("A Storm of Swords", martin , otherGenres);
+        Book b5 = new Book("A Storm of Swords", martin, otherGenres);
         otherGenres.remove(Genre.FANTASY);
         otherGenres.add(Genre.HISTORICAL);
         otherGenres.add(Genre.REALISTIC);
-        Book b6 = new Book("Ogniem i mieczem", sienkiewicz , otherGenres);
-        Book b7 = new Book("Potop", sienkiewicz , otherGenres);
-        Book b8 = new Book("Pan Wołodyjowski", sienkiewicz , otherGenres);
-        Book b9 = new Book("Krzyżacy", sienkiewicz , otherGenres);
+        Book b6 = new Book("Ogniem i mieczem", sienkiewicz, otherGenres);
+        Book b7 = new Book("Potop", sienkiewicz, otherGenres);
+        Book b8 = new Book("Pan Wołodyjowski", sienkiewicz, otherGenres);
+        Book b9 = new Book("Krzyżacy", sienkiewicz, otherGenres);
 
 
         Collection<Book> books = new ArrayList<>();
@@ -206,14 +206,14 @@ public class BookCollections {
         System.out.println("=================findByAuthor================");
 
         Collection<Book> authorsBooks = findByAuthor(books, martin);
-        for (Book item : authorsBooks){
+        for (Book item : authorsBooks) {
             System.out.println(item.toString());
         }
 
         System.out.println("=================findByTitle================");
 
         Collection<Book> booksFindByTitle = findByTitle(books, "a Game");
-        for (Book item : booksFindByTitle){
+        for (Book item : booksFindByTitle) {
             System.out.println(item.toString());
         }
 
@@ -223,7 +223,7 @@ public class BookCollections {
         genresToFind.add(Genre.HISTORICAL);
         genresToFind.add(Genre.REALISTIC);
         Collection<Book> booksFindByGenres = findByGenres(books, genresToFind);
-        for (Book item : booksFindByGenres){
+        for (Book item : booksFindByGenres) {
             System.out.println(item.toString());
         }
 
@@ -231,14 +231,14 @@ public class BookCollections {
         System.out.println("================sortByTitle=================");
         List<Book> booksSortedByTitle = sortByTitle(books);
 
-        for (Book item : booksSortedByTitle){
+        for (Book item : booksSortedByTitle) {
             System.out.println(item.toString());
         }
 
         System.out.println("=============sortByAuthorAndTitle====================");
         List<Book> sortedBooks = sortByAuthorAndTitle(books);
 
-        for (Book item : sortedBooks){
+        for (Book item : sortedBooks) {
             System.out.println(item.toString());
         }
 
@@ -252,8 +252,8 @@ public class BookCollections {
         System.out.println("================authorsBookCountMap=================");
         Map<Person, Integer> booksMap = authorsBookCountMap(books);
 
-        for (Map.Entry<Person, Integer> item : booksMap.entrySet()){
-            System.out.println( "Author: "  + item.getKey().getFirstName() + " " + item.getKey().getLastName() +
+        for (Map.Entry<Person, Integer> item : booksMap.entrySet()) {
+            System.out.println("Author: " + item.getKey().getFirstName() + " " + item.getKey().getLastName() +
                     " - count of books: " + item.getValue());
         }
 
