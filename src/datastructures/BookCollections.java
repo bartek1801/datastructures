@@ -25,20 +25,12 @@ public class BookCollections {
     // NIE modyfikuje kolekcji books!
     public static Collection<Book> findByTitle(Collection<Book> books, String phrase) {
         Collection<Book> newBooks =  new LinkedList<>();
-
+        String newPhrase = phrase.trim().toLowerCase();
         for (Book item : books) {
-            String itemTitle = item.getTitle().toLowerCase();
-            for (int i = 0; i < phrase.length(); i++) {
-                if (phrase.toLowerCase().charAt(i) == itemTitle.charAt(i)){
-                    continue;
-                }
-                else
-                    break;
-            }
-            newBooks.add(item);
+            if (item.getTitle().toLowerCase().contains(newPhrase))
+                newBooks.add(item);
         }
-
-        return newBooks;//TODO sprobuj iteratorem
+        return newBooks;
     }
 
     // zwraca książki z kolekcji books które należą do wszystkich zadanych gatunków
@@ -164,7 +156,7 @@ public class BookCollections {
 
     // zwraca gatunek który ma najwięcej książek
     public Genre mostPopularGenre(Collection<Book> books) {
-        return null;
+        return null;//TODO
     }
 
 
@@ -183,6 +175,7 @@ public class BookCollections {
         otherGenres.remove(Genre.DRAMA);
         otherGenres.add(Genre.FANTASY);
         Book b3 = new Book("A Clash of Kings", martin, otherGenres);
+        Book b10 = new Book("A Game ...........", martin ,  otherGenres);
         otherGenres.remove(Genre.FANTASY);
         otherGenres.add(Genre.DRAMA);
         Book b4 = new Book("God father", puzo , otherGenres);
@@ -208,6 +201,7 @@ public class BookCollections {
         books.add(b7);
         books.add(b8);
         books.add(b9);
+        books.add(b10);
 
         System.out.println("=================findByAuthor================");
 
