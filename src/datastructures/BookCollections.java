@@ -148,13 +148,18 @@ public class BookCollections {
 
 
     // zwraca autora który napisał najwięcej książek
-    public Person bestAuthor(Collection<Book> books) {
-
-        for (Book item : books){
-
+    // ? co w przypadku autorów z taką smą liczba książek
+    public static Person bestAuthor(Collection<Book> books) {
+        Map<Person, Integer> m = authorsBookCountMap(books);
+        int tmp = 0;
+        Person tmpAuthor = null;
+        for (Map.Entry<Person, Integer> item : m.entrySet()){
+            if (tmp < item.getValue()) {
+                tmp = item.getValue();
+                tmpAuthor = item.getKey();
+            }
         }
-
-        return null;
+        return tmpAuthor;
     }
 
     // zwraca gatunek który ma najwięcej książek
@@ -187,7 +192,10 @@ public class BookCollections {
         otherGenres.remove(Genre.FANTASY);
         otherGenres.add(Genre.HISTORICAL);
         otherGenres.add(Genre.REALISTIC);
-        Book b6 = new Book("Potop", sienkiewicz , otherGenres);
+        Book b6 = new Book("Ogniem i mieczem", sienkiewicz , otherGenres);
+        Book b7 = new Book("Potop", sienkiewicz , otherGenres);
+        Book b8 = new Book("Pan Wołodyjowski", sienkiewicz , otherGenres);
+        Book b9 = new Book("Krzyżacy", sienkiewicz , otherGenres);
 
 
         Collection<Book> books = new ArrayList<>();
@@ -197,6 +205,9 @@ public class BookCollections {
         books.add(b4);
         books.add(b5);
         books.add(b6);
+        books.add(b7);
+        books.add(b8);
+        books.add(b9);
 
         System.out.println("=================findByAuthor================");
 
@@ -260,6 +271,10 @@ public class BookCollections {
 
         System.out.println("===============booksCount-genre==================");
         System.out.println("Count of FANTASY books is: " + booksCount(books, Genre.FANTASY));
+
+        System.out.println("===============bestAuthor==================");
+        System.out.println("Best Author is: " + bestAuthor(books));
+
     }
 
 }
