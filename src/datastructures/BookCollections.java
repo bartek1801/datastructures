@@ -212,7 +212,7 @@ public class BookCollections {
 
         System.out.println("=================findByTitle================");
 
-        Collection<Book> booksFindByTitle = findByTitle(books, "A Game");
+        Collection<Book> booksFindByTitle = findByTitle(books, "a Game");
         for (Book item : booksFindByTitle){
             System.out.println(item.toString());
         }
