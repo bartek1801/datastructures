@@ -90,18 +90,17 @@ public class BookCollections {
 
     //tworzy mapę książek należących napisanych przez poszczególnych autorów
     public static Map<Person, Collection<Book>> authorsMap(Collection<Book> books) {
-        Collection<Book> booksOfAuthor = new ArrayList<>();
         Map<Person, Collection<Book>> mapOfBooks = new HashMap<>();
-
-        /*for (Book item : books){
-             Collection<Book> current =  mapOfBooks.get(item.getAuthor());
-
-            if (current.equals(null))
-                mapOfBooks.put(item.getAuthor(), Arrays.asList(new Book(item.getTitle(), item.getAuthor(),item.getGenres())));
-            else
-                mapOfBooks.put(item.getAuthor(), Arrays.asList(item));
-        }*/
-        return mapOfBooks; //TODO
+        Collection<Book> booksOfAuthor;
+        for (Book item : books){
+            booksOfAuthor =  mapOfBooks.get(item.getAuthor());
+            if (booksOfAuthor == null) {
+                booksOfAuthor = new LinkedList<>();
+                mapOfBooks.put(item.getAuthor(), booksOfAuthor);
+            }
+            booksOfAuthor.add(item);
+        }
+        return mapOfBooks;
     }
 
     //tworzy mapę z ilością książek napisanych przez zadanego autora
@@ -242,12 +241,13 @@ public class BookCollections {
             System.out.println(item.toString());
         }
 
-       /* System.out.println("===============authorsMap==================");
+        System.out.println("===============authorsMap==================");
         Map<Person, Collection<Book>> mapOfAuthors = authorsMap(books);
 
         for (Map.Entry<Person, Collection<Book>> item : mapOfAuthors.entrySet()){
-            System.out.println("Author: " + item.getKey().toString() + "Books" + item.getValue().toString());
-        }*/
+            System.out.println("Author: " + item.getKey().toString());
+            System.out.println( "Book" + item.getValue().toString());
+        }
 
         System.out.println("================authorsBookCountMap=================");
         Map<Person, Integer> booksMap = authorsBookCountMap(books);
