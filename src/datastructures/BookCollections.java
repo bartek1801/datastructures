@@ -129,6 +129,18 @@ public class BookCollections {
         return booksCount;
     }
 
+    public static Map<Genre, Integer> genresBookCountMap(Collection<Book> books){
+       /* Map<Genre, Integer> coutMap = new HashMap<>();
+        for (Book item : books){
+            Integer currentCount = coutMap.get(item.getGenres());
+            if (currentCount == null){
+                coutMap.put(item.getGenres(), 1)
+            }
+        }*/
+
+        return null;
+    }
+
     // zwraca liczbę książek których autorem jest auhtor
     public static int booksCount(Collection<Book> books, Person author) {
         int booksCounter = 0;
@@ -167,6 +179,8 @@ public class BookCollections {
 
     // zwraca gatunek który ma najwięcej książek
     public Genre mostPopularGenre(Collection<Book> books) {
+
+
         return null;
     }
 
