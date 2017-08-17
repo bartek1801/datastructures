@@ -167,7 +167,7 @@ public class BookCollections {
 
     // zwraca gatunek który ma najwięcej książek
     public Genre mostPopularGenre(Collection<Book> books) {
-        return null;//TODO
+        return null;
     }
 
 
