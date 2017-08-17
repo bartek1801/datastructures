@@ -216,7 +216,7 @@ public class BookCollections {
         Book b9 = new Book("Krzyżacy", sienkiewicz, otherGenres);
 
 
-        Collection<Book> books = new ArrayList<>();
+        Collection<Book> books = new LinkedList<>();
         books.add(b1);
         books.add(b2);
         books.add(b3);
