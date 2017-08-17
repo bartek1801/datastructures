@@ -85,7 +85,19 @@ public class BookCollections {
     //tworzy mapę książek należących do poszczególnych gatunków, jeśli ksiżąka należy
     //do wielu gatunków, powinna wiele razy występować na mapie
     public static Map<Genre, Collection<Book>> genresMap(Collection<Book> books) {
-        return null; //TODO
+        Map<Genre, Collection<Book>> genresBooksMap = new HashMap<>();
+        Collection<Book> booksOfGenre;
+        for (Book bookItem : books){
+            for (Genre genreItem : bookItem.getGenres()){
+                booksOfGenre = genresBooksMap.get(genreItem);
+                if (booksOfGenre == null){
+                    booksOfGenre = new LinkedList<>();
+                    genresBooksMap.put(genreItem, booksOfGenre);
+                }
+                booksOfGenre.add(bookItem);
+            }
+        }
+        return genresBooksMap;
     }
 
     //tworzy mapę książek należących napisanych przez poszczególnych autorów
@@ -239,6 +251,14 @@ public class BookCollections {
 
         for (Book item : sortedBooks) {
             System.out.println(item.toString());
+        }
+
+        System.out.println("===============genresMap==================");
+        Map<Genre, Collection<Book>> genresMapOfBooks = genresMap(books);
+
+        for (Map.Entry<Genre, Collection<Book>> item : genresMapOfBooks.entrySet()){
+            System.out.println("Genre -> " + item.getKey().toString());
+            System.out.println("Book -> " + item.getValue().toString());
         }
 
         System.out.println("===============authorsMap==================");
