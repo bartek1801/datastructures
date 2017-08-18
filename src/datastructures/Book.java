@@ -48,6 +48,14 @@ public class Book {
         this.genres = genres;
     }
 
+    public static Set<Genre> fillGenreSet(Genre ... genres){
+        Set<Genre> genreSet = new HashSet<>();
+        for (Genre item : genres){
+         genreSet.add(item);
+        }
+        return genreSet;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
@@ -55,5 +63,25 @@ public class Book {
                 ", author=" + author +
                 ", genres=" + genres +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+
+        if (!title.equals(book.title)) return false;
+        if (!author.equals(book.author)) return false;
+        return genres.equals(book.genres);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = title.hashCode();
+        result = 31 * result + author.hashCode();
+        result = 31 * result + genres.hashCode();
+        return result;
     }
 }

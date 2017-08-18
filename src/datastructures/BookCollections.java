@@ -1,7 +1,8 @@
 package datastructures;
 
-import java.lang.reflect.Array;
 import java.util.*;
+
+import static datastructures.Genre.*;
 
 /**
  * Created by bartek on 08.08.2017.
@@ -130,15 +131,17 @@ public class BookCollections {
     }
 
     public static Map<Genre, Integer> genresBookCountMap(Collection<Book> books){
-       /* Map<Genre, Integer> coutMap = new HashMap<>();
-        for (Book item : books){
-            Integer currentCount = coutMap.get(item.getGenres());
-            if (currentCount == null){
-                coutMap.put(item.getGenres(), 1)
+        Map<Genre, Integer> coutMap = new HashMap<>();
+        for (Book itemBook : books){
+            for (Genre itemGenre : itemBook.getGenres()){
+                Integer currentCount = coutMap.get(itemGenre);
+                if (currentCount == null)
+                    coutMap.put(itemGenre, 1);
+                else
+                    coutMap.put(itemGenre, currentCount + 1);
             }
-        }*/
-
-        return null;
+        }
+        return coutMap;
     }
 
     // zwraca liczbę książek których autorem jest auhtor
@@ -178,42 +181,36 @@ public class BookCollections {
     }
 
     // zwraca gatunek który ma najwięcej książek
-    public Genre mostPopularGenre(Collection<Book> books) {
-
-
-        return null;
+    public static Genre mostPopularGenre(Collection<Book> books) {
+        Map<Genre, Integer> m = genresBookCountMap(books);
+        int tmp = 0;
+        Genre tmpGenre = null;
+        for (Map.Entry<Genre, Integer> item : m.entrySet()){
+            if (tmp < item.getValue()){
+                tmp = item.getValue();
+                tmpGenre = item.getKey();
+            }
+        }
+        return tmpGenre;
     }
 
 
     public static void main(String[] args) {
-        Set<Genre> otherGenres = new HashSet<>();
 
         Person martin = new Person("George R.R.", "Martin", 68);
         Person puzo = new Person("Mario", "Puzo", 70);
         Person sienkiewicz = new Person("Henryk", "Sienkiewicz", 80);
 
-        otherGenres.add(Genre.FANTASY);
-        Book b1 = new Book("A Game of throne", martin, otherGenres);
-        otherGenres.remove(Genre.FANTASY);
-        otherGenres.add(Genre.DRAMA);
-        Book b2 = new Book("A Family Corleone", puzo, otherGenres);
-        otherGenres.remove(Genre.DRAMA);
-        otherGenres.add(Genre.FANTASY);
-        Book b3 = new Book("A Clash of Kings", martin, otherGenres);
-        Book b10 = new Book("A Game ...........", martin, otherGenres);
-        otherGenres.remove(Genre.FANTASY);
-        otherGenres.add(Genre.DRAMA);
-        Book b4 = new Book("God father", puzo, otherGenres);
-        otherGenres.remove(Genre.DRAMA);
-        otherGenres.add(Genre.FANTASY);
-        Book b5 = new Book("A Storm of Swords", martin, otherGenres);
-        otherGenres.remove(Genre.FANTASY);
-        otherGenres.add(Genre.HISTORICAL);
-        otherGenres.add(Genre.REALISTIC);
-        Book b6 = new Book("Ogniem i mieczem", sienkiewicz, otherGenres);
-        Book b7 = new Book("Potop", sienkiewicz, otherGenres);
-        Book b8 = new Book("Pan Wołodyjowski", sienkiewicz, otherGenres);
-        Book b9 = new Book("Krzyżacy", sienkiewicz, otherGenres);
+        Book b1 = new Book("A Game of throne", martin, Book.fillGenreSet(FANTASY));
+        Book b2 = new Book("A Family Corleone", puzo, Book.fillGenreSet(DRAMA, FICTION));
+        Book b3 = new Book("A Clash of Kings", martin, Book.fillGenreSet(FANTASY));
+        Book b10 = new Book("A Game ...........", martin, Book.fillGenreSet(COMEDY, SATIRE));
+        Book b4 = new Book("God father", puzo, Book.fillGenreSet(DRAMA, FICTION));
+        Book b5 = new Book("A Storm of Swords", martin, Book.fillGenreSet(FANTASY));
+        Book b6 = new Book("Ogniem i mieczem", sienkiewicz, Book.fillGenreSet(HISTORICAL, REALISTIC));
+        Book b7 = new Book("Potop", sienkiewicz, Book.fillGenreSet(HISTORICAL, REALISTIC));
+        Book b8 = new Book("Pan Wołodyjowski", sienkiewicz, Book.fillGenreSet(HISTORICAL, REALISTIC));
+        Book b9 = new Book("Krzyżacy", sienkiewicz, Book.fillGenreSet(HISTORICAL, REALISTIC));
 
 
         Collection<Book> books = new LinkedList<>();
@@ -227,6 +224,7 @@ public class BookCollections {
         books.add(b8);
         books.add(b9);
         books.add(b10);
+
 
         System.out.println("=================findByAuthor================");
 
@@ -245,8 +243,8 @@ public class BookCollections {
         System.out.println("=================findByGenre================");
 
         Set<Genre> genresToFind = new HashSet<>();
-        genresToFind.add(Genre.HISTORICAL);
-        genresToFind.add(Genre.REALISTIC);
+        genresToFind.add(HISTORICAL);
+        genresToFind.add(REALISTIC);
         Collection<Book> booksFindByGenres = findByGenres(books, genresToFind);
         for (Book item : booksFindByGenres) {
             System.out.println(item.toString());
@@ -291,6 +289,13 @@ public class BookCollections {
                     " - count of books: " + item.getValue());
         }
 
+        System.out.println("================genresBookCountMap=================");
+        Map<Genre, Integer> genresBookMap = genresBookCountMap(books);
+        for (Map.Entry<Genre, Integer> item : genresBookMap.entrySet()){
+            System.out.println("Genre: " + item.getKey() + " -> Count of books: " + item.getValue() );
+        }
+
+
         System.out.println("===============booksCount==================");
         System.out.println(martin.getFirstName() + " " + martin.getLastName() + " - count of books: " + booksCount(books, martin));
         System.out.println(puzo.getFirstName() + " " + puzo.getLastName() + " - count of books: " + booksCount(books, puzo));
@@ -298,10 +303,13 @@ public class BookCollections {
 
 
         System.out.println("===============booksCount-genre==================");
-        System.out.println("Count of FANTASY books is: " + booksCount(books, Genre.FANTASY));
+        System.out.println("Count of FANTASY books is: " + booksCount(books, FANTASY));
 
         System.out.println("===============bestAuthor==================");
         System.out.println("Best Author is: " + bestAuthor(books));
+
+        System.out.println("===============mostPopularGenre==================");
+        System.out.println("The most popular genre is: " + mostPopularGenre(books));
 
     }
 
