@@ -166,7 +166,6 @@ public class BookCollections {
 
 
     // zwraca autora który napisał najwięcej książek
-    // ? co w przypadku autorów z taką smą liczba książek
     public static Person bestAuthor(Collection<Book> books) {
         Map<Person, Integer> m = authorsBookCountMap(books);
         int tmp = 0;
