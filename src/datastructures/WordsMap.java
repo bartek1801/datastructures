@@ -29,6 +29,26 @@ public class WordsMap {
         return map;
     }
 
+
+    public static Map<String, List<Integer>> wordsMapV3(String text) {
+        Map<String, List<Integer>> map = new HashMap<>();
+        int wordStartIndex = -1;
+        text = text + ' ';
+        for (int index = 0; index < text.length(); index++) {
+            char c = text.charAt(index);
+            if (Character.isWhitespace(c)) {
+                if (wordStartIndex != -1) {
+                    String word = text.substring(wordStartIndex, index);
+                    putWord(map, word, wordStartIndex);
+                    wordStartIndex = -1;
+                }
+            } else if (wordStartIndex == -1)
+                wordStartIndex = index;
+        }
+        return map;
+    }
+
+
     public static Map<String, List<Integer>> mapOfStringV2(String text){
         String[] words = text.split(" ");
         Map<String, List<Integer>> map = new HashMap<>();
