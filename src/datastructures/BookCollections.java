@@ -1,6 +1,9 @@
 package datastructures;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static datastructures.Genre.*;
 
@@ -12,12 +15,21 @@ public class BookCollections {
     // zwraca książki z kolekcji books które zostały napisane przez zadanego autora
     // NIE modyfikuje kolekcji books!
     public static Collection<Book> findByAuthor(Collection<Book> books, Person author) {
-        Collection<Book> newBooks = new LinkedList<>();
+        //Collection<Book> newBooks = new LinkedList<>();
 
-        for (Book item : books) {
+       /* for (Book item : books) {
             if (item.getAuthor().equals(author))
                 newBooks.add(item);
-        }
+        }*/
+
+         Collection<Book> newBooks = books.stream().filter(new Predicate<Book>() {
+            @Override
+            public boolean test(Book book) {
+                return book.getAuthor().equals(author);
+            }
+        }).collect(Collectors.toList());
+
+
         return newBooks;
     }
 
@@ -26,12 +38,21 @@ public class BookCollections {
     // NIE modyfikuje kolekcji books!
     public static Collection<Book> findByTitle(Collection<Book> books, String phrase) {
         Collection<Book> newBooks = new LinkedList<>();
-        String newPhrase = phrase.trim().toLowerCase();
-        for (Book item : books) {
+        //String newPhrase = phrase.trim().toLowerCase();
+     /*   for (Book item : books) {
             if (item.getTitle().toLowerCase().contains(newPhrase))
                 newBooks.add(item);
-        }
-        return newBooks;
+        }*/
+
+        return newBooks = books.stream().filter(book ->
+                book.getTitle().toLowerCase().contains(phrase.trim().toLowerCase())).collect(Collectors.toList());
+
+        /*return newBooks = books.stream().filter(new Predicate<Book>() {
+            @Override
+            public boolean test(Book book) {
+                return book.getTitle().toLowerCase().contains(phrase.trim().toLowerCase());
+            }
+        }).collect(Collectors.toList());*/
     }
 
     // zwraca książki z kolekcji books które należą do wszystkich zadanych gatunków
