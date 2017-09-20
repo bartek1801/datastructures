@@ -1,6 +1,7 @@
 package datastructures;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -59,11 +60,19 @@ public class BookCollections {
     // NIE modyfikuje kolekcji books!
     public static Collection<Book> findByGenres(Collection<Book> books, Set<Genre> genres) {
         Collection<Book> genresBooks = new LinkedList<>();
-        for (Book item : books) {
+       /* for (Book item : books) {
             if (genres.containsAll(item.getGenres()))
                 genresBooks.add(item);
         }
-        return genresBooks;
+        return genresBooks;*/
+
+        return genresBooks = books.stream().filter(new Predicate<Book>() {
+            @Override
+            public boolean test(Book book) {
+                return genres.containsAll(book.getGenres());
+            }
+        }).collect(Collectors.toList());
+
     }
 
     // zwraca posortowaną rosnąco po tytule listę książek stworzoną z kolekcji books
@@ -71,12 +80,16 @@ public class BookCollections {
     public static List<Book> sortByTitle(Collection<Book> books) {
         List<Book> newList = new ArrayList<>(books);
 
-        newList.sort(new Comparator<Book>() {
+        newList.sort(Comparator.comparing(Book::getTitle));
+        //newList.sort((b1, b2) -> b1.getTitle().compareTo(b2.getTitle()));
+
+       /* newList.sort(new Comparator<Book>() {
             @Override
             public int compare(Book b1, Book b2) {
                 return b1.getTitle().compareTo(b2.getTitle());
             }
-        });
+        });*/
+
         return newList;
     }
 
@@ -101,6 +114,21 @@ public class BookCollections {
             }
         });
 
+
+     /*   newList.stream().sorted(new Comparator<Book>() {
+            private static final int LAST_NAME_PRIORITY = 100;
+            private static final int FIRST_NAME_PRIORITY = 10;
+            private static final int TITLE_PRIORITY = 1;
+            @Override
+            public int compare(Book b1, Book b2) {
+                int lastNameComparator = b1.getAuthor().getLastName().compareTo(b2.getAuthor().getLastName());
+                int firstNameComparator = b1.getAuthor().getFirstName().compareTo(b2.getAuthor().getFirstName());
+                int titleComparator = b1.getTitle().compareTo(b2.getTitle());
+                return lastNameComparator * LAST_NAME_PRIORITY + firstNameComparator * FIRST_NAME_PRIORITY
+                        + titleComparator * TITLE_PRIORITY;
+            }
+        }).collect(Collectors.toList());
+*/
         return newList;
     }
 
@@ -120,6 +148,7 @@ public class BookCollections {
             }
         }
         return genresBooksMap;
+
     }
 
     //tworzy mapę książek należących napisanych przez poszczególnych autorów
@@ -141,14 +170,26 @@ public class BookCollections {
     public static Map<Person, Integer> authorsBookCountMap(Collection<Book> books) {
         Map<Person, Integer> booksCount = new HashMap<>();
 
-        for (Book item : books) {
+      /*  for (Book item : books) {
             Integer currentCount = booksCount.get(item.getAuthor());
             if (currentCount == null)
                 booksCount.put(item.getAuthor(), 1);
             else
                 booksCount.put(item.getAuthor(), currentCount + 1);
         }
-        return booksCount;
+        return booksCount;*/
+
+      books.stream().forEach(new Consumer<Book>() {
+          @Override
+          public void accept(Book book) {
+              Integer count = booksCount.getOrDefault(book.getAuthor(), 0);
+              booksCount.put(book.getAuthor(), count + 1);
+          }
+      });
+
+      return booksCount;
+
+
     }
 
     public static Map<Genre, Integer> genresBookCountMap(Collection<Book> books){
@@ -168,11 +209,11 @@ public class BookCollections {
     // zwraca liczbę książek których autorem jest auhtor
     public static int booksCount(Collection<Book> books, Person author) {
         int booksCounter = 0;
-        for (Book item : books) {
-            if (item.getAuthor().equals(author))
-                booksCounter++;
-        }
-        return booksCounter;
+            for (Book item : books) {
+                if (item.getAuthor().equals(author))
+                    booksCounter++;
+            }
+            return booksCounter;
     }
 
     // zwraca liczbę książek z danego gatunku
