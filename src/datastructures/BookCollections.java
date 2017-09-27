@@ -66,13 +66,13 @@ public class BookCollections {
         }
         return genresBooks;*/
 
-        return genresBooks = books.stream().filter(new Predicate<Book>() {
+        books.stream().filter(new Predicate<Book>() {
             @Override
             public boolean test(Book book) {
                 return genres.containsAll(book.getGenres());
             }
         }).collect(Collectors.toList());
-
+        return genresBooks;
     }
 
     // zwraca posortowaną rosnąco po tytule listę książek stworzoną z kolekcji books
